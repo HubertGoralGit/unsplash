@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
@@ -16,6 +16,20 @@ const HomeWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+const InputWrapper = styled.div`
+  position: relative;
+`;
+
+const ClearButton = styled.button`
+  position: absolute;
+  top: calc(50% - 15px);
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
 `;
 
 const Home = () => {
@@ -37,7 +51,9 @@ const Home = () => {
     });
   };
 
-  
+  const handleClearButton = () => {
+    setInputValue('');
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -49,21 +65,25 @@ const Home = () => {
 
   if (redirect) {
     return (
-      <Redirect 
+      <Redirect
         to={{
           pathname: routes.results,
-          state: {name: inputValue ,data: data.results}
+          state: { name: inputValue, data: data.results },
         }}
       />
-    )
+    );
   }
 
   return (
     <HomeWrapper>
-      <Search
-        onChange={(e) => setInputValue(e.target.value)}
-        onKeyPress={handleKeyPress}
-      />
+      <InputWrapper>
+        <Search
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyPress={handleKeyPress}
+          value={inputValue}
+        />
+        <ClearButton onClick={handleClearButton}>x</ClearButton>
+      </InputWrapper>
     </HomeWrapper>
   );
 };

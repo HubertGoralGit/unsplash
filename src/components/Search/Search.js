@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import searchIcon from '../../assets/icons/search.svg';
 
 const Search = styled.input`
@@ -20,6 +20,20 @@ const Search = styled.input`
     content: url(${searchIcon});
     position: absolute;
   }
+
+  :after {
+    content: 'x';
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  ${({ results }) =>
+    results &&
+    css`
+      border-radius: 25px;
+      background-color: gray;
+    `}
 `;
 
 export default Search;
